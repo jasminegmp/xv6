@@ -532,3 +532,29 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+void
+proccount(void)
+{
+  static char *states[] = {
+  [UNUSED]    "unused",
+  [EMBRYO]    "embryo",
+  [SLEEPING]  "sleep ",
+  [RUNNABLE]  "runble",
+  [RUNNING]   "run   ",
+  [ZOMBIE]    "zombie"
+  };
+  struct proc *p;
+  int numprocess;
+  numprocess = 0;
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->state == UNUSED)
+      continue;
+    if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
+    {
+      numprocess = numprocess + 1;
+    }
+  }
+  cprintf("Number of processes: %d\n", numprocess);
+}
